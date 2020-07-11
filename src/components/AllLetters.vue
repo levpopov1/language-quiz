@@ -21,7 +21,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "Alphabet",
+  name: "AllLetters",
   methods: {
     ...mapActions(["fetchLetters"])
   },
