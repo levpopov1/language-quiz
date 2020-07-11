@@ -16,6 +16,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './assets/vendor/css/bootstrap.min.css';
   @import './assets/scss/index.scss';
 </style>
