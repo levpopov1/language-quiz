@@ -1,8 +1,9 @@
-// store methods for Deck component
+const namespaced = true;
+
 const state = {
     letters: [],
     letterTypes: [],
-    sorted: [],
+    sorted: []
 };
 
 const getters = {
@@ -54,6 +55,7 @@ const mutations = {
 };
 
 export default {
+    namespaced,
     state,
     getters,
     actions,
