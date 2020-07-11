@@ -4,7 +4,7 @@
       <h1 class="title">{{ list.title }}</h1>
       <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 mb-4">
         <div class="col mb-4" v-for="item in list.items" v-bind:key="item.id">
-          <div  class="card h-100">
+          <div  class="card hoverable h-100">
             <div class="card-body">
               <h1 class="display-10 text-center">{{ item.kr }}</h1>
             </div>
@@ -23,10 +23,10 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "AllLetters",
   methods: {
-    ...mapActions(["fetchLetters"])
+    ...mapActions('Alphabet', ["fetchLetters"])
   },
   computed: {
-    ...mapGetters(["allLetters", "letterTypes", "sorted"])
+    ...mapGetters('Alphabet', ["allLetters", "letterTypes", "sorted"])
   },
   created(){
     this.fetchLetters();
