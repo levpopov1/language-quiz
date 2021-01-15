@@ -20,34 +20,7 @@
       </div>
     </div>
     <div class="row row-cols-2 justify-content-center">
-      <div class="col-sm-2 mb-3">
-        <div  class="card hoverable clickable">
-          <div class="card-body">
-            <h1 class="display-5 text-center">{{ currentQ.en }}</h1>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-2 mb-3">
-        <div  class="card hoverable clickable">
-          <div class="card-body">
-            <h1 class="display-5 text-center">{{ currentQ.en }}</h1>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-2 mb-3">
-        <div  class="card hoverable clickable">
-          <div class="card-body">
-            <h1 class="display-5 text-center">{{ currentQ.en }}</h1>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-2 mb-3">
-        <div  class="card hoverable clickable">
-          <div class="card-body">
-            <h1 class="display-5 text-center">{{ currentQ.en }}</h1>
-          </div>
-        </div>
-      </div>
+      <Guess v-for="(guess, index) in randomizedAnswers" v-bind:key="index" v-bind:guess="guess"/>
     </div>
     <div class="row justify-content-center">
       <div class="col text-center mb-3">
@@ -81,19 +54,68 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
+import Guess from '@/components/guess'
 export default {
   name: "Quiz",
+  components:{
+    Guess
+  },
   methods: {
-    ...mapActions('Quiz', ["fetchQuestions", "incrementCorrect", "incrementWrong", "nextQuestion", "setLimit"])
+    ...mapActions('Quiz', ["fetchAlphabet", "fetchQuestions", "incrementCorrect", "incrementWrong", "nextQuestion", "setLimit"]),
+    shuffle(array){
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    },
+    onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    },
+    randomSelection(array, quantity){
+      let collection = [];
+      for (let index = 0; index < quantity; index++) {
+        let item = array[Math.floor(Math.random() * array.length)];
+        collection.push(item);
+      }
+      return collection;
+    },
+    getWrongAnswers(quantity){
+      let options = this.shuffle(this.alphabet);
+      let collection = [];
+      for (let index = 0; index < quantity; index++) {
+        collection.push(options[index].en);
+      }
+      if(collection.includes(this.currentQ.en)){
+        collection = collection.filter(item => item != this.currentQ.en);
+        collection.push(options[quantity+1].en);
+      }
+      return collection;
+    }
   },
   computed: {
     ...mapGetters('Quiz', ["allQuestions"]),
-    ...mapState('Quiz', ["limit", "index", "numCorrect", "numWrong", "numTotal"]),
-    currentQ(){
-      return this.allQuestions[this.index];
+    ...mapState('Quiz', ["limit", "index", "numCorrect", "numWrong", "numTotal", "currentQ", "alphabet"]),
+    randomizedAnswers(){
+      let correct = this.currentQ.en;
+      let incorrect = this.getWrongAnswers(3);
+      // let wrong = incorrect.map(item => item.en);
+      return this.shuffle([correct, ...incorrect]);
     }
   },
   created(){
+    this.fetchAlphabet();
     this.fetchQuestions();
   }
 };
