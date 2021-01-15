@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" id="home">
+  <div class="container" id="home">
     <Quiz/>
   </div>
 </template>
