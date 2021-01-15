@@ -1,6 +1,11 @@
 const namespaced = true;
 
+const API_URL = "http://192.168.1.73:5000/api/v1";
+// const API_URL = "http://localhost:5000/api/v1";
+
 const state = {
+    language: "",
+    languageDisplayString: "default",
     alphabet:[],
     questions: [],
     currentQ: {},
@@ -19,7 +24,7 @@ const getters = {
 
 const actions = {
     fetchAlphabet({ commit }) {
-        const url = 'http://localhost:5000/api/v1/hangul';
+        const url = API_URL + '/hangul';
         fetch(url)
             .then(response => response.json())
             .then(function(json){
@@ -27,7 +32,7 @@ const actions = {
             });
     },
     fetchQuestions({commit, state}){
-        const url = 'http://localhost:5000/api/v1/hangul/random';
+        const url = API_URL + '/hangul/random';
         const limit = state.limit;
 
         fetch(`${url}?limit=${limit}`)
@@ -54,7 +59,7 @@ const actions = {
             commit('resetIndex')
             dispatch('fetchQuestions');
         }   
-    }
+    },
 }
 
 const mutations = {
@@ -66,6 +71,24 @@ const mutations = {
     incrementIndex: (state) => (state.index++),
     setLimit: (state, limit) => (state.limit = limit),
     resetIndex: (state) => (state.index = 0),
+    setLanguage: (state, language) => {
+        state.language = language;
+        switch (language) {
+            case 'hiragana':
+                state.languageDisplayString = "Japanese - Hiragana"
+                break;
+            case 'katakana':
+                state.languageDisplayString = "Japanese - Katakana"
+                break;
+            case 'hangul':
+                state.languageDisplayString = "Korean - Hangul"
+                break;
+            default:
+                state.languageDisplayString = "not set"
+                break;
+        }
+    },
+
 }
 
 export default {
