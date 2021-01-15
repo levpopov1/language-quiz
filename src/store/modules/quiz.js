@@ -1,7 +1,9 @@
 const namespaced = true;
 
 const state = {
+    alphabet:[],
     questions: [],
+    currentQ: {},
     limit: 10,
     index: 0,
     numCorrect: 0,
@@ -11,9 +13,19 @@ const state = {
 
 const getters = { 
     allQuestions: (state) => state.questions,
+    getAlphabet: (state) => state.alphabet,
+    currentQ: (state) => state.currentQ,
 }
 
 const actions = {
+    fetchAlphabet({ commit }) {
+        const url = 'http://localhost:5000/api/v1/hangul';
+        fetch(url)
+            .then(response => response.json())
+            .then(function(json){
+                commit('setAlphabet', json); 
+            });
+    },
     fetchQuestions({commit, state}){
         const url = 'http://localhost:5000/api/v1/hangul/random';
         const limit = state.limit;
@@ -22,6 +34,7 @@ const actions = {
         .then(response => response.json())
         .then(function(json){
             commit('setQuestions', json); 
+            commit('setCurrentQ', json[state.index]);
         });
 
     },
@@ -32,7 +45,8 @@ const actions = {
         commit('incrementWrong');
     },
     nextQuestion({commit}){
-        commit('nextQuestion');
+        commit('incrementIndex');
+        commit('setCurrentQ', state.questions[state.index]);
     },
     setLimit({commit, dispatch, state}, limit){
         if(limit != state.limit){
@@ -44,12 +58,14 @@ const actions = {
 }
 
 const mutations = {
+    setAlphabet: (state, alphabet) => (state.alphabet = alphabet),
     setQuestions: (state, questions) => (state.questions = questions),
+    setCurrentQ: (state, currentQ) => (state.currentQ = currentQ),
     incrementCorrect: (state) => (state.numCorrect++),
     incrementWrong: (state) => (state.numWrong++),
-    nextQuestion: (state) => (state.index++),
+    incrementIndex: (state) => (state.index++),
     setLimit: (state, limit) => (state.limit = limit),
-    resetIndex: (state) => (state.index = 0)
+    resetIndex: (state) => (state.index = 0),
 }
 
 export default {
