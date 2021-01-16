@@ -21,7 +21,7 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Number of Questions
+                Number of Questions: {{ limit }}
               </a>
               <div class="dropdown-menu">
                 <li><button class="dropdown-item" @click="setLimit(25)">25</button></li>
@@ -32,21 +32,15 @@
                 <li><button class="dropdown-item" @click="setLimit(200)">200</button></li>
               </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark disabled" href="#">{{ limit }}</a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Language
+                Language: {{ languageDisplayString }}
               </a>
               <div class="dropdown-menu">
                 <li><button class="dropdown-item" @click="setLanguage('hiragana')">Japanese - Hiragana</button></li>
                 <li><button class="dropdown-item" @click="setLanguage('katakana')">Japanese - Katakana</button></li>
                 <li><button class="dropdown-item" @click="setLanguage('hangul')">Korean - Hangul</button></li>
               </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark disabled" href="#">{{ languageDisplayString }}</a>
             </li>
           </ul>
         </div>
