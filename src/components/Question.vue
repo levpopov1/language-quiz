@@ -8,9 +8,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-sm-12 col-md-4 d-none d-md-flex flex-md-column justify-content-between">
-        <Guess v-for="(guess, index) in randomizedAnswers" v-bind:key="index" v-bind:guess="guess"/>
-      </div> -->
     </div>
     <div class="row row-cols-2 justify-content-center">
       <Guess v-for="(guess, index) in randomizedAnswers" v-bind:key="index" v-bind:guess="guess"
@@ -25,8 +22,9 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from "vuex";
+  import { mapActions, mapState, mapMutations } from "vuex";
   import Guess from '@/components/guess';
+  import {shuffle} from '@/lib/arrayHelpers';
   export default {
     name: "Question",
     components:{
@@ -38,38 +36,10 @@
       }
     },
     methods: {
-      ...mapActions('Quiz', ["fetchAlphabet", "fetchQuestions", "incrementCorrect", "incrementWrong", "nextQuestion", "setLimit"]),
-      shuffle(array){
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-      },
-      // onlyUnique(value, index, self) {
-      //   return self.indexOf(value) === index;
-      // },
-      // randomSelection(array, quantity){
-      //   let collection = [];
-      //   for (let index = 0; index < quantity; index++) {
-      //     let item = array[Math.floor(Math.random() * array.length)];
-      //     collection.push(item);
-      //   }
-      //   return collection;
-      // },
+      ...mapActions('Quiz', ["incrementCorrect", "incrementWrong", "nextQuestion"]),
+      ...mapMutations('Quiz', ["incrementIndex"]),
       getWrongAnswers(quantity){
-        let options = this.shuffle(this.alphabet);
+        let options = shuffle(this.alphabet);
         let collection = [];
         for (let index = 0; index < quantity; index++) {
           collection.push(options[index].en);
@@ -92,6 +62,9 @@
           }
           else{
             // end quiz and show results
+            setTimeout(() => {
+              this.incrementIndex();
+            }, 300);
           }
         }
         else{
@@ -103,11 +76,11 @@
       }
     },
     computed: {
-      ...mapState('Quiz', ["limit", "index", "numCorrect", "numWrong", "numTotal", "currentQ", "alphabet"]),
+      ...mapState('Quiz', ["limit", "index", "currentQ", "alphabet"]),
       randomizedAnswers(){
         let correct = this.currentQ.en;
         let incorrect = this.getWrongAnswers(3);
-        return this.shuffle([correct, ...incorrect]);
+        return shuffle([correct, ...incorrect]);
       }
     },
     watch:{
