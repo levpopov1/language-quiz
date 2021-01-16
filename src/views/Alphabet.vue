@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" id="aplhabet">
+  <div class="container" id="aplhabet">
     <AllLetters/>
   </div>
 </template>
