@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Score/>
+    <Score v-if="index < limit && !isEmpty(currentQ)"/>
     <Question v-if="index < limit && !isEmpty(currentQ)"/>
     <QuizResults v-if="index == limit"/>
   </div>
