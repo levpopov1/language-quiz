@@ -1,7 +1,7 @@
 const namespaced = true;
 
-const API_URL = "http://192.168.1.73:5000/api/v1";
-// const API_URL = "http://localhost:5000/api/v1";
+// const API_URL = "http://192.168.1.73:5000/api/v1";
+const API_URL = "http://localhost:5000/api/v1";
 
 const state = {
     language: "",
@@ -60,6 +60,12 @@ const actions = {
             dispatch('fetchQuestions');
         }   
     },
+    resetQuiz({commit, dispatch}){
+        commit('resetIndex');
+        commit('resetCorrect');
+        commit('resetWrong');
+        dispatch('fetchQuestions');
+    }
 }
 
 const mutations = {
@@ -71,6 +77,8 @@ const mutations = {
     incrementIndex: (state) => (state.index++),
     setLimit: (state, limit) => (state.limit = limit),
     resetIndex: (state) => (state.index = 0),
+    resetCorrect: (state) => (state.numCorrect = 0),
+    resetWrong: (state) => (state.numWrong = 0),
     setLanguage: (state, language) => {
         state.language = language;
         switch (language) {
