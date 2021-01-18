@@ -4,7 +4,7 @@
       <div class="col-sm-12 mb-3">
         <div class="card">
           <div class="card-body">
-            <h1 class="display-20 text-center">{{ currentQ.kr }}</h1>
+            <h1 class="display-20 text-center">{{ currentQ[lang] }}</h1>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
       }
     },
     computed: {
-      ...mapState('Quiz', ["limit", "index", "currentQ", "alphabet"]),
+      ...mapState('Quiz', ["limit", "index", "currentQ", "alphabet", "lang"]),
       randomizedAnswers(){
         let correct = this.currentQ.en;
         let incorrect = this.getWrongAnswers(3);
