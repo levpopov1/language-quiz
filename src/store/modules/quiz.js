@@ -15,6 +15,8 @@ const state = {
     languageDisplayString: "Korean - Hangul",
     lang: "kr",
     alphabet:[],
+    allLetters:[],
+    letterTypes: [],
     questions: [],
     currentQ: {},
     limit: 10,
@@ -28,6 +30,9 @@ const getters = {
     allQuestions: (state) => state.questions,
     getAlphabet: (state) => state.alphabet,
     currentQ: (state) => state.currentQ,
+    getLettersByType: (state) => (type) => {
+        return state.alphabet.filter(item => item.type === type);
+    }
 }
 
 const actions = {
@@ -38,6 +43,8 @@ const actions = {
             .then(response => response.json())
             .then(function(json){
                 commit('setAlphabet', json); 
+                commit('setAllLetters', json); 
+                commit('setLetterTypes', json);
             })
             .catch(function(error){
                 console.log(error);
@@ -90,6 +97,7 @@ const actions = {
 
 const mutations = {
     setAlphabet: (state, alphabet) => (state.alphabet = alphabet),
+    setAllLetters: (state, allLetters) => (state.allLetters = allLetters),
     setQuestions: (state, questions) => (state.questions = questions),
     setCurrentQ: (state, currentQ) => (state.currentQ = currentQ),
     incrementCorrect: (state) => (state.numCorrect++),
@@ -120,7 +128,7 @@ const mutations = {
                 break;
         }
     },
-
+    setLetterTypes: (state, letters) => (state.letterTypes = [...new Set(letters.map(letter => letter.type))])
 }
 
 export default {
