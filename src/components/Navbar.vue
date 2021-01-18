@@ -37,9 +37,9 @@
                 Language: {{ languageDisplayString }}
               </a>
               <div class="dropdown-menu">
-                <li><button class="dropdown-item" @click="setLanguage('hiragana')">Japanese - Hiragana</button></li>
-                <li><button class="dropdown-item" @click="setLanguage('katakana')">Japanese - Katakana</button></li>
-                <li><button class="dropdown-item" @click="setLanguage('hangul')">Korean - Hangul</button></li>
+                <li><button class="dropdown-item" @click="changeLanguage('hiragana')">Japanese - Hiragana</button></li>
+                <li><button class="dropdown-item" @click="changeLanguage('katakana')">Japanese - Katakana</button></li>
+                <li><button class="dropdown-item" @click="changeLanguage('hangul')">Korean - Hangul</button></li>
               </div>
             </li>
           </ul>
@@ -50,15 +50,14 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: 'Navbar',
   components: {
 
   },
   methods: {
-    ...mapActions('Quiz', ["setLimit", "setLanguage"]),
-    ...mapMutations('Quiz', ["setLanguage"])
+    ...mapActions('Quiz', ["setLimit", "changeLanguage"]),
   },
   computed: {
     ...mapState('Quiz', ["limit", "languageDisplayString"]),
