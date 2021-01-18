@@ -39,7 +39,7 @@
       ...mapActions('Quiz', ["incrementCorrect", "incrementWrong", "nextQuestion"]),
       ...mapMutations('Quiz', ["incrementIndex"]),
       getWrongAnswers(quantity){
-        let options = shuffle(this.alphabet);
+        let options = shuffle(this.allLetters);
         let collection = [];
         for (let index = 0; index < quantity; index++) {
           collection.push(options[index].en);
@@ -76,7 +76,7 @@
       }
     },
     computed: {
-      ...mapState('Quiz', ["limit", "index", "currentQ", "alphabet", "lang"]),
+      ...mapState('Quiz', ["limit", "index", "currentQ", "allLetters", "lang"]),
       randomizedAnswers(){
         let correct = this.currentQ.en;
         let incorrect = this.getWrongAnswers(3);
