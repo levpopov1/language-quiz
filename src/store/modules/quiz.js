@@ -3,9 +3,17 @@ const namespaced = true;
 // const API_URL = "http://192.168.1.73:5000/api/v1";
 const API_URL = "http://localhost:5000/api/v1";
 
+function handleErrors(response){
+    if (!response.ok) {
+        throw Error(response.status + ' ' + response.statusText);
+    }
+    return response;
+}
+
 const state = {
-    language: "",
-    languageDisplayString: "default",
+    language: "hangul",
+    languageDisplayString: "Korean - Hangul",
+    lang: "kr",
     alphabet:[],
     questions: [],
     currentQ: {},
@@ -24,24 +32,31 @@ const getters = {
 
 const actions = {
     fetchAlphabet({ commit }) {
-        const url = API_URL + '/hangul';
+        const url = API_URL + '/' + state.language;
         fetch(url)
+            .then(handleErrors)
             .then(response => response.json())
             .then(function(json){
                 commit('setAlphabet', json); 
+            })
+            .catch(function(error){
+                console.log(error);
             });
     },
     fetchQuestions({commit, state}){
-        const url = API_URL + '/hangul/random';
+        const url = API_URL + '/' + state.language + '/random';
         const limit = state.limit;
 
         fetch(`${url}?limit=${limit}`)
-        .then(response => response.json())
-        .then(function(json){
-            commit('setQuestions', json); 
-            commit('setCurrentQ', json[state.index]);
-        });
-
+            .then(handleErrors)
+            .then(response => response.json())
+            .then(function(json){
+                commit('setQuestions', json); 
+                commit('setCurrentQ', json[state.index]);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     },
     incrementCorrect({commit}){
         commit('incrementCorrect');
@@ -65,6 +80,11 @@ const actions = {
         commit('resetCorrect');
         commit('resetWrong');
         dispatch('fetchQuestions');
+    },
+    changeLanguage({commit, dispatch}, language){
+        commit('setLanguage', language);
+        dispatch('fetchAlphabet');
+        dispatch('resetQuiz');
     }
 }
 
@@ -83,16 +103,20 @@ const mutations = {
         state.language = language;
         switch (language) {
             case 'hiragana':
-                state.languageDisplayString = "Japanese - Hiragana"
+                state.languageDisplayString = "Japanese - Hiragana";
+                state.lang = "jp";
                 break;
             case 'katakana':
-                state.languageDisplayString = "Japanese - Katakana"
+                state.languageDisplayString = "Japanese - Katakana";
+                state.lang = "jp";
                 break;
             case 'hangul':
-                state.languageDisplayString = "Korean - Hangul"
+                state.languageDisplayString = "Korean - Hangul";
+                state.lang = "kr";
                 break;
             default:
-                state.languageDisplayString = "not set"
+                state.languageDisplayString = "";
+                state.lang = "";
                 break;
         }
     },
