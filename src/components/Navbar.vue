@@ -14,9 +14,6 @@
               <li class="nav-item">
                 <router-link to="/alphabet" class="nav-link">Alphabet</router-link>
               </li>
-              <li class="nav-item">
-                <router-link to="/about" class="nav-link">About</router-link>
-              </li>
           </ul>
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -53,9 +50,6 @@
 import { mapActions, mapState } from "vuex";
 export default {
   name: 'Navbar',
-  components: {
-
-  },
   methods: {
     ...mapActions('Quiz', ["setLimit", "changeLanguage"]),
   },
