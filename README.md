@@ -1,24 +1,4 @@
-# learn-hangul
+# Language Quiz Frontend APP
+### Learn Hiragana, Katakana and Hangul alphabets.   
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Backend API for this project is located at [https://github.com/levpopov1/language-quiz-api](https://github.com/levpopov1/language-quiz-api)
