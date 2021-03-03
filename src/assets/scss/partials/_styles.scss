@@ -13,6 +13,10 @@
     margin: 0;
 }
 
+.capitalize{
+    text-transform: capitalize;
+}
+
 @include media-breakpoint-down(md) {
     #scorePanel{
         // display: none;
