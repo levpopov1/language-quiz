@@ -1,7 +1,8 @@
 const namespaced = true;
 
 // const API_URL = "http://192.168.1.73:5000/api/v1";
-const API_URL = "http://localhost:5000/api/v1";
+// const API_URL = "http://localhost:5000/api/v1";
+const API_URL = "https://api.logograms.fyi";
 
 function handleErrors(response){
     if (!response.ok) {
