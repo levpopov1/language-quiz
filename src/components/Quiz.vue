@@ -1,7 +1,7 @@
 <template>
   <div>
     <Score v-if="index < limit && !isEmpty(currentQ)"/>
-    <Question v-if="index < limit && !isEmpty(currentQ)"/>
+    <Question v-if="index < limit && !isEmpty(allLetters) && !isEmpty(currentQ)"/>
     <QuizResults v-if="index == limit"/>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('Quiz', ["limit", "index", "currentQ"])
+    ...mapState('Quiz', ["limit", "index", "currentQ", "allLetters"])
   },
   created(){
     this.fetchAlphabet();
