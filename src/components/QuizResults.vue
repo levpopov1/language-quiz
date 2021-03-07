@@ -1,7 +1,7 @@
 <template>
   <div id="quizResults">
     <div class="row mb-4">
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-3">
         <div class="card text-white bg-success">
           <div class="card-body text-center">
             <h1 class="title">{{ numCorrect }}</h1>
@@ -9,7 +9,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-3">
         <div class="card text-white bg-danger">
           <div class="card-body text-center">
             <h1 class="title">{{ numWrong }}</h1>
@@ -17,7 +17,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-3">
         <div class="card">
           <div class="card-body text-center">
             <h1 class="title">{{ limit }}</h1>
