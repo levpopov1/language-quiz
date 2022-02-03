@@ -1,11 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Alphabet from '../views/Alphabet.vue'
 
-Vue.use(VueRouter)
-
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -14,13 +10,12 @@ Vue.use(VueRouter)
   {
     path: '/alphabet',
     name: 'Alphabet',
-    component: Alphabet
+    component: () => import("../views/Alphabet.vue") 
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
 })
 
