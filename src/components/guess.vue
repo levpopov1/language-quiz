@@ -1,9 +1,7 @@
 <template>
   <div class="col-sm-6 col-md-3">
     <div class="card hoverable mb-3">
-      <div class="card-body text-center p-0">
-        <button type="button" class="btn btn-block display-5 p-3" @click="setHighlight" v-bind:class="[highlight]">{{ guess }}</button>
-      </div>
+        <button type="button" class="btn display-5 p-3" @click="setHighlight" v-bind:class="[highlight]">{{ guess }}</button>
     </div>
   </div>
 </template>
